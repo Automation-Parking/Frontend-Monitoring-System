@@ -4,7 +4,6 @@ import Button from "./button";
 
 const FormLogin = (props) => {
   const { method = "POST", action = "/login" } = props;
-
   return (
     <form
       method={`${method}`}
@@ -43,7 +42,7 @@ const FormLogin = (props) => {
           Password
         </label>
       </div>
-      <Button>Submit</Button>
+      <Button type="Submit">Submit</Button>
     </form>
   );
 };

@@ -8,11 +8,6 @@ function Home() {
   return (
     <div>
       <Header></Header>
-      <InputField name="nama" id="nama">
-        Nama
-      </InputField>
-      <FormLogin method="POST" action="/login"></FormLogin>
-      <Button>Ucup</Button>
     </div>
   );
 }
