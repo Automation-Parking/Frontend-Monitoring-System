@@ -1,24 +1,27 @@
 import React from "react";
 
 const HeadHiddenMenu = (props) => {
-  const { children, header } = props;
+  const {
+    children,
+    header,
+    isSubMenuOpen,
+    toggleSubMenu,
+    activeButton = "",
+  } = props;
+
   return (
     <div className="space-y-2 py-6">
       <div className="-mx-3">
         <button
           type="button"
-          className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+          onClick={toggleSubMenu}
+          className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base/7 font-semibold bg-transparent text-gray-900 border-0 focus:outline-none hover:border-0 hover:bg-gray-50"
           aria-controls="disclosure-1"
-          aria-expanded="false"
+          aria-expanded={isSubMenuOpen}
         >
           {header}
-          {/* <!--
-      Expand/collapse icon, toggle classNamees based on menu open state.
-
-      Open: "rotate-180", Closed: ""
-    --> */}
           <svg
-            className="h-5 w-5 flex-none"
+            className={`h-5 w-5 flex-none ${isSubMenuOpen ? "rotate-180" : ""}`}
             viewBox="0 0 20 20"
             fill="currentColor"
             aria-hidden="true"
@@ -31,10 +34,11 @@ const HeadHiddenMenu = (props) => {
             />
           </svg>
         </button>
-        {/* <!-- 'Product' sub-menu, show/hide based on menu state. --> */}
-        <div className="mt-2 space-y-2" id="disclosure-1">
-          {children}
-        </div>
+        {isSubMenuOpen && (
+          <div className="mt-2 space-y-2" id="disclosure-1">
+            {children}
+          </div>
+        )}
       </div>
     </div>
   );

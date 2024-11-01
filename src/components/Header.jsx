@@ -9,6 +9,7 @@ import LogoChartBar from "../assets/image/Logo/memory_chart-bar.png";
 import LogoPaper from "../assets/image/Logo/bxs_file-archive.png";
 import LogoPaperArchive from "../assets/image/Logo/vaadin_archive.png";
 import LogoBraincore from "../assets/image/Logo/Braincore.png";
+import LogoAdmin from "../assets/image/Logo/LogoAdmin.png";
 import HiddenMenu from "./HiddenMenu";
 import SubHiddenMenu from "./SubHiddenMenu";
 import HeadHiddenMenu from "./HeadHiddenMenu";
@@ -18,11 +19,28 @@ const Header = () => {
   const [isReportPaperDropdownOpen, setReportPaperDropdownOpen] =
     useState(false);
   const [activeButton, setActiveButton] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const [isMonitoringSubMenuOpen, setMonitoringSubMenuOpen] = useState(true);
+  const [isAnalyticSubMenuOpen, setAnalyticSubMenuOpen] = useState(true);
+  const [isReportPaperSubMenuOpen, setReportPaperSubMenuOpen] = useState(true);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const toggleMonitoringSubMenu = () => {
+    setMonitoringSubMenuOpen(!isMonitoringSubMenuOpen);
+  };
+  const toggleAnalyticSubMenu = () => {
+    setAnalyticSubMenuOpen(!isAnalyticSubMenuOpen);
+  };
+  const toggleReportPaperSubMenu = () => {
+    setReportPaperSubMenuOpen(!isReportPaperSubMenuOpen);
+  };
 
   const handleButtonClick = (buttonName) => {
     setActiveButton(buttonName);
 
-    // Menangani dropdown yang berbeda
     if (buttonName === "Monitoring") {
       setMonitoringDropdownOpen(!isMonitoringDropdownOpen);
       setAnalyticDropdownOpen(false);
@@ -56,10 +74,11 @@ const Header = () => {
           </span>
         </div>
 
-        <div className="flex lg:hidden">
+        <div className="flex lg:hidden absolute right-4 pl-4">
           <button
             type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+            onClick={toggleMenu}
+            className=" inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 bg-gradient-to-b from-[#d2e9f8] via-[#c3e1f4] to-[#7ac8f9] border-0 focus:outline-none hover:text-white"
           >
             <span className="sr-only">Open main menu</span>
             <svg
@@ -82,18 +101,14 @@ const Header = () => {
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-3">
           <div className="flex h-12 w-12 flex-none items-center justify-center rounded-full bg-gray-50 group-hover:bg-white">
-            <img
-              src="/path/to/motorcycle-icon.png"
-              alt="Motorcycle Icon"
-              className="h-6 w-6"
-            />
+            <img src={LogoAdmin} alt="Motorcycle Icon" className="h-9 w-9" />
           </div>
-          <a
+          <p
             href="#"
-            className="flex items-center justify-center text-lg font-bold text-[#ffffff]"
+            className="flex items-center justify-center text-xl font-bold text-[#ffffff]"
           >
             User
-          </a>
+          </p>
         </div>
       </nav>
       <nav
@@ -206,20 +221,18 @@ const Header = () => {
             dropdownName="Report Paper"
           >
             <SubDropdown>
-              <div className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50">
-                <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                  <img src={LogoPaper} alt="Report Paper" className="h-6 w-6" />
-                </div>
-                <div className="flex-auto">
-                  <a href="#" className="block font-semibold text-gray-900">
-                    Report Paper
-                    <span className="absolute inset-0"></span>
-                  </a>
-                  <p className="mt-1 text-gray-600">
-                    Efficiently archive and manage your CCTV records,
-                    safeguarding valuable footage for future reference
-                  </p>
-                </div>
+              <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                <img src={LogoPaper} alt="Report Paper" className="h-6 w-6" />
+              </div>
+              <div className="flex-auto">
+                <a href="#" className="block font-semibold text-gray-900">
+                  Report Paper
+                  <span className="absolute inset-0"></span>
+                </a>
+                <p className="mt-1 text-gray-600">
+                  Efficiently archive and manage your CCTV records, safeguarding
+                  valuable footage for future reference
+                </p>
               </div>
             </SubDropdown>
             <SubDropdown>
@@ -246,17 +259,29 @@ const Header = () => {
           </Dropdown>
         </div>
       </nav>
-      <HiddenMenu>
-        <HeadHiddenMenu header="Monitoring">
+      <HiddenMenu isMenuOpen={isMenuOpen} toggleMenu={toggleMenu}>
+        <HeadHiddenMenu
+          header="Monitoring"
+          isSubMenuOpen={isMonitoringSubMenuOpen}
+          toggleSubMenu={toggleMonitoringSubMenu}
+        >
           <SubHiddenMenu href="#">Monitoring Motorcycle Area</SubHiddenMenu>
           <SubHiddenMenu href="#">Monitoring Car Area</SubHiddenMenu>
           <SubHiddenMenu href="#">Archive CCTV Record</SubHiddenMenu>
         </HeadHiddenMenu>
-        <HeadHiddenMenu header="Analytics">
+        <HeadHiddenMenu
+          header="Analytics"
+          isSubMenuOpen={isAnalyticSubMenuOpen}
+          toggleSubMenu={toggleAnalyticSubMenu}
+        >
           <SubHiddenMenu href="#">Visitors Analytic</SubHiddenMenu>
           <SubHiddenMenu href="#">Visitors by Region Analytic</SubHiddenMenu>
         </HeadHiddenMenu>
-        <HeadHiddenMenu header="Report Paper">
+        <HeadHiddenMenu
+          header="Report Paper"
+          isSubMenuOpen={isReportPaperSubMenuOpen}
+          toggleSubMenu={toggleReportPaperSubMenu}
+        >
           <SubHiddenMenu href="#">Report Paper</SubHiddenMenu>
           <SubHiddenMenu href="#">Report Archive</SubHiddenMenu>
         </HeadHiddenMenu>

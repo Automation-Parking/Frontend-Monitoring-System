@@ -26,8 +26,8 @@ const Dropdown = (props) => {
             <svg
               className={`h-5 w-5 flex-none text-gray-400 transition-all duration-500 ease-in-out ${
                 activeButton === dropdownName && isDropdownOpen
-                  ? "scale-y-100 opacity-100"
-                  : "scale-y-0 opacity-0"
+                  ? "rotate-180"
+                  : ""
               }`}
               viewBox="0 0 20 20"
               fill="currentColor"
