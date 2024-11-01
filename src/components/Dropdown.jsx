@@ -22,9 +22,9 @@ const Dropdown = (props) => {
       >
         <div className="relative">
           <div className="flex">
-            <p>{dropdownName}</p>
+            <p className="text-lg">{dropdownName}</p>
             <svg
-              className={`h-5 w-5 flex-none text-gray-400 transition-all duration-500 ease-in-out ${
+              className={`h-7 w-7 flex-none justify-center text-gray-400 transition-all duration-500 ease-in-out ${
                 activeButton === dropdownName && isDropdownOpen
                   ? "rotate-180"
                   : ""

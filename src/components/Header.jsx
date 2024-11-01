@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Dropdown from "./Dropdown";
 import SubDropdown from "./SubDropdown";
 import LogoMotor from "../assets/image/Logo/fontisto_motorcycle.png";
@@ -45,7 +46,7 @@ const Header = () => {
       setMonitoringDropdownOpen(!isMonitoringDropdownOpen);
       setAnalyticDropdownOpen(false);
       setReportPaperDropdownOpen(false);
-    } else if (buttonName === "Analytic") {
+    } else if (buttonName === "Analytics") {
       setAnalyticDropdownOpen(!isAnalyticDropdownOpen);
       setMonitoringDropdownOpen(false);
       setReportPaperDropdownOpen(false);
@@ -122,97 +123,111 @@ const Header = () => {
             onClick={() => handleButtonClick("Monitoring")}
             dropdownName="Monitoring"
           >
-            <SubDropdown>
-              <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                <img
-                  src={LogoMotor}
-                  alt="Motorcycle Icon"
-                  className="h-6 w-6"
-                />
-              </div>
-              <div className="flex-auto">
-                <a href="#" className="block font-semibold text-gray-900">
-                  Monitoring Motorcycle Area
-                  <span className="absolute inset-0"></span>
-                </a>
-                <p className="mt-1 text-gray-600">
-                  Enhance your motorcycles parking management with real-time
-                  data
-                </p>
-              </div>
-            </SubDropdown>
-            <SubDropdown>
-              <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                <img src={LogoMobil} alt="Car Icon" className="h-6 w-6" />
-              </div>
-              <div className="flex-auto">
-                <a href="#" className="block font-semibold text-gray-900">
-                  Monitoring Car Area
-                  <span className="absolute inset-0"></span>
-                </a>
-                <p className="mt-1 text-gray-600">
-                  Enhance your cars parking management with real-time data
-                </p>
-              </div>
-            </SubDropdown>
-            <SubDropdown>
-              <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                <img src={LogoArchive} alt="Archive Icon" className="h-6 w-6" />
-              </div>
-              <div className="flex-auto">
-                <a href="#" className="block font-semibold text-gray-900">
-                  Archive CCTV Record
-                  <span className="absolute inset-0"></span>
-                </a>
-                <p className="mt-1 text-gray-600">
-                  Efficiently archive and manage your CCTV records, safeguarding
-                  valuable footage for future reference
-                </p>
-              </div>
-            </SubDropdown>
+            <Link to="/Monitoring/Motorcycle-Monitoring">
+              <SubDropdown>
+                <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                  <img
+                    src={LogoMotor}
+                    alt="Motorcycle Icon"
+                    className="h-6 w-6"
+                  />
+                </div>
+                <div className="flex-auto">
+                  <a href="#" className="block font-semibold text-gray-900">
+                    Monitoring Motorcycle Area
+                    <span className="absolute inset-0"></span>
+                  </a>
+                  <p className="mt-1 text-gray-600">
+                    Enhance your motorcycles parking management with real-time
+                    data
+                  </p>
+                </div>
+              </SubDropdown>
+            </Link>
+            <Link to="/Monitoring/Car-Monitoring">
+              <SubDropdown>
+                <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                  <img src={LogoMobil} alt="Car Icon" className="h-6 w-6" />
+                </div>
+                <div className="flex-auto">
+                  <a href="#" className="block font-semibold text-gray-900">
+                    Monitoring Car Area
+                    <span className="absolute inset-0"></span>
+                  </a>
+                  <p className="mt-1 text-gray-600">
+                    Enhance your cars parking management with real-time data
+                  </p>
+                </div>
+              </SubDropdown>
+            </Link>
+            <Link to="/Monitoring/CCTV-Archive">
+              <SubDropdown>
+                <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                  <img
+                    src={LogoArchive}
+                    alt="Archive Icon"
+                    className="h-6 w-6"
+                  />
+                </div>
+                <div className="flex-auto">
+                  <a href="#" className="block font-semibold text-gray-900">
+                    Archive CCTV Record
+                    <span className="absolute inset-0"></span>
+                  </a>
+                  <p className="mt-1 text-gray-600">
+                    Efficiently archive and manage your CCTV records,
+                    safeguarding valuable footage for future reference
+                  </p>
+                </div>
+              </SubDropdown>
+            </Link>
           </Dropdown>
           <Dropdown
             isDropdownOpen={isAnalyticDropdownOpen}
             activeButton={`${activeButton}`}
-            onClick={() => handleButtonClick("Analytic")}
-            dropdownName="Analytic"
+            onClick={() => handleButtonClick("Analytics")}
+            dropdownName="Analytics"
           >
-            <SubDropdown>
-              <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                <img
-                  src={LogoChartLine}
-                  alt="Analytic Visitor"
-                  className="h-6 w-6"
-                />
-              </div>
-              <div className="flex-auto">
-                <a href="#" className="block font-semibold text-gray-900">
-                  Analytic Visitor
-                  <span className="absolute inset-0"></span>
-                </a>
-                <p className="mt-1 text-gray-600">
-                  Enhance your cars parking management with real-time data
-                </p>
-              </div>
-            </SubDropdown>
-            <SubDropdown>
-              <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                <img
-                  src={LogoChartBar}
-                  alt="Visitors by Region Analytic"
-                  className="h-6 w-6"
-                />
-              </div>
-              <div className="flex-auto">
-                <a href="#" className="block font-semibold text-gray-900">
-                  Visitors by Region Analytic
-                  <span className="absolute inset-0"></span>
-                </a>
-                <p className="mt-1 text-gray-600">
-                  Enhance your cars parking management with real-time data
-                </p>
-              </div>
-            </SubDropdown>
+            <Link to="/Analitics/visitor-Analytics">
+              <SubDropdown>
+                <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                  <img
+                    src={LogoChartLine}
+                    alt="Analytic Visitor"
+                    className="h-6 w-6"
+                  />
+                </div>
+                <div className="flex-auto">
+                  <a href="#" className="block font-semibold text-gray-900">
+                    Analytic Visitor
+                    <span className="absolute inset-0"></span>
+                  </a>
+                  <p className="mt-1 text-gray-600">
+                    Enhance your cars parking management with real-time data
+                  </p>
+                </div>
+              </SubDropdown>
+            </Link>
+            <Link to="/Analitics/visitor-Region-Analytics">
+              <SubDropdown>
+                <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                  <img
+                    src={LogoChartBar}
+                    alt="Visitors by Region Analytic"
+                    className="h-6 w-6"
+                  />
+                </div>
+                <div className="flex-auto">
+                  <a href="#" className="block font-semibold text-gray-900">
+                    Visitors by Region Analytic
+                    <span className="absolute inset-0"></span>
+                  </a>
+                  <p className="mt-1 text-gray-600">
+                    Enhance your cars parking management with real-time data
+                  </p>
+                </div>
+              </SubDropdown>
+            </Link>
           </Dropdown>
           <Dropdown
             isDropdownOpen={isReportPaperDropdownOpen}
@@ -220,23 +235,25 @@ const Header = () => {
             onClick={() => handleButtonClick("Report Paper")}
             dropdownName="Report Paper"
           >
-            <SubDropdown>
-              <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                <img src={LogoPaper} alt="Report Paper" className="h-6 w-6" />
-              </div>
-              <div className="flex-auto">
-                <a href="#" className="block font-semibold text-gray-900">
-                  Report Paper
-                  <span className="absolute inset-0"></span>
-                </a>
-                <p className="mt-1 text-gray-600">
-                  Efficiently archive and manage your CCTV records, safeguarding
-                  valuable footage for future reference
-                </p>
-              </div>
-            </SubDropdown>
-            <SubDropdown>
-              <div className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50">
+            <Link to="/ReportPaper/Report-Paper">
+              <SubDropdown>
+                <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                  <img src={LogoPaper} alt="Report Paper" className="h-6 w-6" />
+                </div>
+                <div className="flex-auto">
+                  <a href="#" className="block font-semibold text-gray-900">
+                    Report Paper
+                    <span className="absolute inset-0"></span>
+                  </a>
+                  <p className="mt-1 text-gray-600">
+                    Efficiently archive and manage your CCTV records,
+                    safeguarding valuable footage for future reference
+                  </p>
+                </div>
+              </SubDropdown>
+            </Link>
+            <Link to="/ReportPaper/Report-Archive">
+              <SubDropdown>
                 <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                   <img
                     src={LogoPaperArchive}
@@ -254,8 +271,8 @@ const Header = () => {
                     safeguarding valuable footage for future reference
                   </p>
                 </div>
-              </div>
-            </SubDropdown>
+              </SubDropdown>
+            </Link>
           </Dropdown>
         </div>
       </nav>
