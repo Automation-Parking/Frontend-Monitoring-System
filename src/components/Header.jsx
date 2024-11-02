@@ -20,10 +20,10 @@ const Header = () => {
   const [isReportPaperDropdownOpen, setReportPaperDropdownOpen] =
     useState(false);
   const [activeButton, setActiveButton] = useState("");
-  const [isMenuOpen, setIsMenuOpen] = useState(true);
   const [isMonitoringSubMenuOpen, setMonitoringSubMenuOpen] = useState(true);
   const [isAnalyticSubMenuOpen, setAnalyticSubMenuOpen] = useState(true);
   const [isReportPaperSubMenuOpen, setReportPaperSubMenuOpen] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -102,7 +102,7 @@ const Header = () => {
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-3">
           <div className="flex h-12 w-12 flex-none items-center justify-center rounded-full bg-gray-50 group-hover:bg-white">
-            <img src={LogoAdmin} alt="Motorcycle Icon" className="h-9 w-9" />
+            <img src={LogoAdmin} alt="admin" className="h-9 w-9" />
           </div>
           <p
             href="#"

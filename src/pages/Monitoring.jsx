@@ -6,6 +6,7 @@ import MotorcyclesMonitoring from "./content/Monitoring/MotorcyclesMonitoring";
 import CarsMonitoring from "./content/Monitoring/CarsMonitoring";
 import ArchiveCCTV from "./content/Monitoring/ArchiveCCTV";
 
+
 function Monitoring() {
   const { content } = useParams();
   if (content === "Motorcycle-Monitoring") {

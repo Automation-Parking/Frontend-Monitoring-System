@@ -1,6 +1,6 @@
 import React from "react";
 import "../assets/style/index.css";
-import Button from "./button";
+import Button from "./Button";
 
 const FormLogin = (props) => {
   const { method = "POST", action = "/login" } = props;
