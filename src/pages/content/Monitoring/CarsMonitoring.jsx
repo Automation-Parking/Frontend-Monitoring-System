@@ -53,7 +53,7 @@ const CarsMonitoring = () => {
             <HeadCard>
               <div className="flex justify-center items-center text-center w-full">
                 <p className="text-2xl font-bold text-[#ffffff]">
-                  Empety Space
+                  Empty Space
                 </p>
               </div>
             </HeadCard>

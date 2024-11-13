@@ -52,9 +52,7 @@ const MotorcyclesMonitoring = () => {
           <Card variant="w-1/2 ml-10">
             <HeadCard>
               <div className="flex justify-center items-center text-center w-full">
-                <p className="text-2xl font-bold text-[#ffffff]">
-                  Empety Space
-                </p>
+                <p className="text-2xl font-bold text-[#ffffff]">Empty Space</p>
               </div>
             </HeadCard>
             <div className="p-10 flex justify-center items-center text-center w-full">

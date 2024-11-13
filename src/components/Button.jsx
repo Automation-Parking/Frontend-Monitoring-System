@@ -10,16 +10,9 @@ contoh gunain nantinya gini :
 */
 
 const Button = (props) => {
-  const {
-    children,
-    variant = "text-white",
-    type = "button",
-  } = props;
+  const { onClick, children, variant = "text-white", type = "button" } = props;
   return (
-    <button
-      type={`${type}`}
-      className={`${variant}`}
-    >
+    <button onClick={onClick} type={`${type}`} className={`${variant}`}>
       {children}
     </button>
   );
