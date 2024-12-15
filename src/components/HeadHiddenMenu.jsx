@@ -6,7 +6,6 @@ const HeadHiddenMenu = (props) => {
     header,
     isSubMenuOpen,
     toggleSubMenu,
-    activeButton = "",
   } = props;
 
   return (

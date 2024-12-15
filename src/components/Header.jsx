@@ -11,9 +11,11 @@ import LogoPaper from "../assets/image/Logo/bxs_file-archive.png";
 import LogoPaperArchive from "../assets/image/Logo/vaadin_archive.png";
 import LogoBraincore from "../assets/image/Logo/Braincore.png";
 import LogoAdmin from "../assets/image/Logo/LogoAdmin.png";
+import LogoLogout from "../assets/image/Logo/logout.png";
 import HiddenMenu from "./HiddenMenu";
 import SubHiddenMenu from "./SubHiddenMenu";
 import HeadHiddenMenu from "./HeadHiddenMenu";
+import Modal from "./Modal";
 const Header = () => {
   const [isMonitoringDropdownOpen, setMonitoringDropdownOpen] = useState(false);
   const [isAnalyticDropdownOpen, setAnalyticDropdownOpen] = useState(false);
@@ -56,6 +58,9 @@ const Header = () => {
       setAnalyticDropdownOpen(false);
     }
   };
+  const [isModalLogoutOpen, setIsModalLogoutOpen] = useState(false);
+  const openModalLogout = () => setIsModalLogoutOpen(true);
+  const closeModalLogout = () => setIsModalLogoutOpen(false);
   return (
     <header className="bg-white mb-2">
       <nav
@@ -133,10 +138,10 @@ const Header = () => {
                   />
                 </div>
                 <div className="flex-auto">
-                  <a href="#" className="block font-semibold text-gray-900">
+                  <p href="#" className="block font-semibold text-gray-900">
                     Monitoring Motorcycle Area
                     <span className="absolute inset-0"></span>
-                  </a>
+                  </p>
                   <p className="mt-1 text-gray-600">
                     Enhance your motorcycles parking management with real-time
                     data
@@ -150,10 +155,10 @@ const Header = () => {
                   <img src={LogoMobil} alt="Car Icon" className="h-6 w-6" />
                 </div>
                 <div className="flex-auto">
-                  <a href="#" className="block font-semibold text-gray-900">
+                  <p href="#" className="block font-semibold text-gray-900">
                     Monitoring Car Area
                     <span className="absolute inset-0"></span>
-                  </a>
+                  </p>
                   <p className="mt-1 text-gray-600">
                     Enhance your cars parking management with real-time data
                   </p>
@@ -170,10 +175,10 @@ const Header = () => {
                   />
                 </div>
                 <div className="flex-auto">
-                  <a href="#" className="block font-semibold text-gray-900">
+                  <p href="#" className="block font-semibold text-gray-900">
                     Archive CCTV Record
                     <span className="absolute inset-0"></span>
-                  </a>
+                  </p>
                   <p className="mt-1 text-gray-600">
                     Efficiently archive and manage your CCTV records,
                     safeguarding valuable footage for future reference
@@ -198,10 +203,10 @@ const Header = () => {
                   />
                 </div>
                 <div className="flex-auto">
-                  <a href="#" className="block font-semibold text-gray-900">
+                  <p href="#" className="block font-semibold text-gray-900">
                     Analytic Visitor
                     <span className="absolute inset-0"></span>
-                  </a>
+                  </p>
                   <p className="mt-1 text-gray-600">
                     Enhance your cars parking management with real-time data
                   </p>
@@ -218,10 +223,10 @@ const Header = () => {
                   />
                 </div>
                 <div className="flex-auto">
-                  <a href="#" className="block font-semibold text-gray-900">
+                  <p href="#" className="block font-semibold text-gray-900">
                     Visitors by Region Analytic
                     <span className="absolute inset-0"></span>
-                  </a>
+                  </p>
                   <p className="mt-1 text-gray-600">
                     Enhance your cars parking management with real-time data
                   </p>
@@ -241,10 +246,10 @@ const Header = () => {
                   <img src={LogoPaper} alt="Report Paper" className="h-6 w-6" />
                 </div>
                 <div className="flex-auto">
-                  <a href="#" className="block font-semibold text-gray-900">
+                  <p href="#" className="block font-semibold text-gray-900">
                     Report Paper
                     <span className="absolute inset-0"></span>
-                  </a>
+                  </p>
                   <p className="mt-1 text-gray-600">
                     Efficiently archive and manage your CCTV records,
                     safeguarding valuable footage for future reference
@@ -262,10 +267,10 @@ const Header = () => {
                   />
                 </div>
                 <div className="flex-auto">
-                  <a href="#" className="block font-semibold text-gray-900">
+                  <p href="#" className="block font-semibold text-gray-900">
                     Report Archive
                     <span className="absolute inset-0"></span>
-                  </a>
+                  </p>
                   <p className="mt-1 text-gray-600">
                     Efficiently archive and manage your CCTV records,
                     safeguarding valuable footage for future reference
@@ -275,6 +280,50 @@ const Header = () => {
             </Link>
           </Dropdown>
         </div>
+        <button
+          onClick={openModalLogout}
+          className="flex font-semibold bg-transparent outline-none border-0 text-gray-900 gap-2 focus:outline-none active:outline-none"
+        >
+          <img src={LogoLogout} alt="" className="h-7 w-7" />
+          <p className="text-lg">Log out</p>
+        </button>
+        <Modal isOpen={isModalLogoutOpen} onClose={closeModalLogout}>
+          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <div className="p-16 md:p-5 text-center">
+              <svg
+                className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
+              <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                Are you sure you want to log out?
+              </h3>
+              <Link to='/'
+                type="button"
+                className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+              >
+                Yes, I'm sure
+              </Link>
+              <button
+                type="button"
+                onClick={closeModalLogout}
+                className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+              >
+                No, cancel
+              </button>
+            </div>
+          </div>
+        </Modal>
       </nav>
       <HiddenMenu isMenuOpen={isMenuOpen} toggleMenu={toggleMenu}>
         <HeadHiddenMenu
