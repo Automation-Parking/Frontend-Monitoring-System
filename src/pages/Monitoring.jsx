@@ -6,33 +6,22 @@ import MotorcyclesMonitoring from "./content/Monitoring/MotorcyclesMonitoring";
 import CarsMonitoring from "./content/Monitoring/CarsMonitoring";
 import ArchiveCCTV from "./content/Monitoring/ArchiveCCTV";
 
-
-function Monitoring() {
+const Monitoring = () => {
   const { content } = useParams();
-  if (content === "Motorcycle-Monitoring") {
-    return (
-      <div>
-        <Header></Header>
-        <MotorcyclesMonitoring></MotorcyclesMonitoring>
-      </div>
-    );
-  } else if (content === "Car-Monitoring") {
-    return (
-      <div>
-        <Header></Header>
-        <CarsMonitoring></CarsMonitoring>
-      </div>
-    );
-  } else if (content === "CCTV-Archive") {
-    return (
-      <div>
-        <Header></Header>
-        <ArchiveCCTV></ArchiveCCTV>
-      </div>
-    );
-  } else {
-    return <NotFound></NotFound>;
-  }
-}
+
+  const renderContent = () => {
+    if (content === "Motorcycle-Monitoring") return <MotorcyclesMonitoring />;
+    if (content === "Car-Monitoring") return <CarsMonitoring />;
+    if (content === "CCTV-Archive") return <ArchiveCCTV />;
+    return <NotFound />;
+  };
+
+  return (
+    <div>
+      <Header />
+      {renderContent()}
+    </div>
+  );
+};
 
 export default Monitoring;

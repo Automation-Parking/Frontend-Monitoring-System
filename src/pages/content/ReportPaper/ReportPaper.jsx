@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../../../components/Card";
 import HeadCard from "../../../components/HeadCard";
 import SearchBar from "../../../components/SearchBar";
@@ -7,20 +7,32 @@ import Button from "../../../components/Button";
 import Modal from "../../../components/Modal";
 
 const ReportPaper = () => {
-  const data = [];
-  let i = 1;
+  const [dataAllVisitor, setDataAllVisitor] = useState(null); // Menyimpan data dari API
+  const [pageNumber, setPageNumber] = useState(1);
+  const page = (conditions) => {
+    if (conditions == "prev" && pageNumber != 1) {
+      setPageNumber(pageNumber - 1);
+    } else if (conditions == "next") {
+      setPageNumber(pageNumber + 1);
+    }
+  };
+  useEffect(() => {
+    const getAllVisitor = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:3000/api/getParkingOut?search=&pageSize=10&page=" +
+            pageNumber
+        );
+        const result = await response.json();
+        setDataAllVisitor(result); // Menyimpan hasil ke dalam state
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-  // Mengisi data menggunakan while loop
-  while (i <= 9) {
-    data.push({
-      id: i,
-      nama: 'Apple MacBook Pro 17"',
-      warna: "Silver",
-      kategori: "Laptop",
-      harga: "$2999",
-    });
-    i++;
-  }
+    getAllVisitor();
+  }, [pageNumber]);
+  console.log(dataAllVisitor);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -55,7 +67,13 @@ const ReportPaper = () => {
                   </h2>
                 </div>
                 <div className="p-6 text-xl font-bold">
-                  <form action="">
+                  <form
+                    action="http://localhost:3000/api/report"
+                    method="POST"
+                    onSubmit={(e) => {
+                      console.log("Form submitted");
+                    }}
+                  >
                     <table cellPadding="5">
                       <tbody>
                         <tr>
@@ -66,6 +84,7 @@ const ReportPaper = () => {
                           <td>
                             <input
                               type="text"
+                              name="fileName"
                               className="rounded-md ml-3 w-full"
                             />
                           </td>
@@ -78,6 +97,7 @@ const ReportPaper = () => {
                           <td>
                             <input
                               type="month"
+                              name="date"
                               className="rounded-md ml-3 w-full"
                             />
                           </td>
@@ -87,7 +107,6 @@ const ReportPaper = () => {
                     <div className="flex justify-end">
                       <button
                         type="submit"
-                        onClick={closeModal}
                         className="flex gap-2 mt-4 px-3 py-1 bg-gradient-to-t border-0 from-[#029C0F] via-[#01b810] to-[#02cd13] focus:ring-2 focus:ring-[#21ba24] focus:outline-none active:outline-none text-white rounded-md"
                       >
                         <img src={IconExcel} alt="" />
@@ -126,34 +145,35 @@ const ReportPaper = () => {
                     Bill
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Province
+                    Region
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    City
+                    City/Province
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {data.map((item) => (
-                  <tr
-                    key={item.id}
-                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                  >
-                    <td
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                {dataAllVisitor ? (
+                  dataAllVisitor.data.map((item) => (
+                    <tr
+                      key={item.id}
+                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                     >
-                      {item.nama}
-                    </td>
-                    <td className="px-6 py-4">{item.warna}</td>
-                    <td className="px-6 py-4">{item.warna}</td>
-                    <td className="px-6 py-4">{item.warna}</td>
-                    <td className="px-6 py-4">{item.warna}</td>
-                    <td className="px-6 py-4">{item.warna}</td>
-                    <td className="px-6 py-4">{item.warna}</td>
-                    <td className="px-6 py-4">{item.warna}</td>
+                      <td className="px-6 py-4">{item.waktuKeluar}</td>
+                      <td className="px-6 py-4">{item.platNomor}</td>
+                      <td className="px-6 py-4">{item.jenisKendaraan}</td>
+                      <td className="px-6 py-4">{item.waktuMasuk}</td>
+                      <td className="px-6 py-4">{item.waktuKeluar}</td>
+                      <td className="px-6 py-4">{item.payment.totalPrice}</td>
+                      <td className="px-6 py-4">{item.wilayah}</td>
+                      <td className="px-6 py-4">{item.kota_provinsi}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="8">Loading Data..</td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>
@@ -161,7 +181,7 @@ const ReportPaper = () => {
             <ul className="lg:flex lg:flex-1 lg:justify-end">
               <li>
                 <a
-                  href="#"
+                  onClick={() => page("prev")}
                   className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   Prev
@@ -170,47 +190,14 @@ const ReportPaper = () => {
               <li>
                 <a
                   href="#"
-                  className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                >
-                  1
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                >
-                  2
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  aria-current="page"
                   className="flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
                 >
-                  3
+                  {pageNumber}
                 </a>
               </li>
               <li>
                 <a
-                  href="#"
-                  className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                >
-                  4
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                >
-                  5
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
+                  onClick={() => page("next")}
                   className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   Next

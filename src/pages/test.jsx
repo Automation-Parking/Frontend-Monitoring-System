@@ -15,29 +15,37 @@ const test = () => {
 
   const predict = async () => {
     const imageSrc = capture();
-    const response = await fetch("http://127.0.0.1:5000/prediction", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    console.log(imageSrc);
+    const response = await fetch(
+      "https://braincore-parking-v1-49333590966.asia-southeast2.run.app/prediction",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ image: imageSrc }),
       },
-      body: JSON.stringify({ image: imageSrc }),
-    });
+      console.log(JSON.stringify({ image: imageSrc }))
+    );
     const data = await response.json();
     console.log(data);
 
-    const responseBackend = await fetch("http://127.0.0.1:5000/prediction", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    
-    const databackend = await responseBackend.json();
-    console.log(databackend);
+    //   const responseBackend = await fetch(
+    //     "https://2d9f-180-243-125-250.ngrok-free.app/api/parkir/masuk",
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify(data.data),
+    //     }
+    //   );
 
-    const responseIoT = fetch("http://192.168.88.138/gerbangMasuk");
-    console.log(responseIoT);
+    //   const databackend = await responseBackend.json();
+    //   console.log(databackend);
+
+    //   const responseIoT = fetch("http://192.168.29.138/gerbangMasuk");
+    //   console.log(responseIoT);
   };
   return (
     <div>
@@ -50,7 +58,6 @@ const test = () => {
       />
       <button onClick={predict}>predict</button>
     </div>
-    
   );
 };
 

@@ -6,23 +6,19 @@ import ReportArchive from "./content/ReportPaper/ReportArchive";
 import ReportPaper from "./content/ReportPaper/ReportPaper";
 const ReportPapers = () => {
   const { content } = useParams();
-  if (content === "Report-Paper") {
-    return (
-      <div>
-        <Header></Header>
-        <ReportPaper></ReportPaper>
-      </div>
-    );
-  } else if (content === "Report-Archive") {
-    return (
-      <div>
-        <Header></Header>
-        <ReportArchive></ReportArchive>
-      </div>
-    );
-  } else {
-    return <NotFound></NotFound>;
-  }
+
+  const renderContent = () => {
+    if (content === "Report-Paper") return <ReportPaper />;
+    if (content === "Report-Archive") return <ReportArchive />;
+    return <NotFound />;
+  };
+
+  return (
+    <div>
+      <Header />
+      {renderContent()}
+    </div>
+  );
 };
 
 export default ReportPapers;
