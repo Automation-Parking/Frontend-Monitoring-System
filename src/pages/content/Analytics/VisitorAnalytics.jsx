@@ -26,13 +26,13 @@ const VisitorAnalytics = () => {
         const [dataAllVisitor, dataAllVisitorMonthly, dataAllVisitorWeekly] =
           await Promise.all([
             fetch(
-              "http://localhost:3000/api/getParkingOut?search=&pageSize=12&page=" +
+              "https://44ca-2404-c0-2420-00-f3bf-19f.ngrok-free.app/api/getParkingOut?search=&pageSize=12&page=" +
                 pageNumber
             ).then((res) => res.json()),
-            fetch("http://localhost:3000/api/getParkingByMonth").then((res) =>
+            fetch("https://44ca-2404-c0-2420-00-f3bf-19f.ngrok-free.app/api/getParkingByMonth").then((res) =>
               res.json()
             ),
-            fetch("http://localhost:3000/api/getParkingByWeek").then((res) =>
+            fetch("https://44ca-2404-c0-2420-00-f3bf-19f.ngrok-free.app/api/getParkingByWeek").then((res) =>
               res.json()
             ),
           ]);

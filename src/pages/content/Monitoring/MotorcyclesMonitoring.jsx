@@ -51,21 +51,25 @@ const MotorcyclesMonitoring = () => {
   }, [pageNumber]);
   const fetchParkingStatus = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/monitoring");
+      const response = await fetch(
+        "https://efa7-2404-c0-2420-00-f3bf-19f.ngrok-free.app/api/monitoring"
+      );
       const data = await response.json();
       setTotalIn(data.totalIn);
     } catch (error) {
-      console.error("Error fetching parking status:", error);
+      console.error("Error fetching parking status:", error.message);
     }
   };
 
   const fetchErrorRecords = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/error-records");
+      const response = await fetch(
+        "https://efa7-2404-c0-2420-00-f3bf-19f.ngrok-free.app/api/error-records"
+      );
       const data = await response.json();
       setErrorRecords(data.records);
     } catch (error) {
-      console.error("Error fetching error records:", error);
+      console.error("Error fetching error records:", error.message);
     }
   };
 
@@ -77,7 +81,7 @@ const MotorcyclesMonitoring = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/api/manual-input/update",
+        "https://efa7-2404-c0-2420-00-f3bf-19f.ngrok-free.app/api/manual-input/update",
         {
           method: "POST",
           headers: {
@@ -106,7 +110,9 @@ const MotorcyclesMonitoring = () => {
   };
 
   const setupWebSocket = () => {
-    const ws = new WebSocket("wss://8318-103-189-201-201.ngrok-free.app/ws");
+    const ws = new WebSocket(
+      "wss://efa7-2404-c0-2420-00-f3bf-19f.ngrok-free.app/ws"
+    );
     console.log("WebSocket connection established");
     ws.onmessage = (event) => {
       const message = JSON.parse(event.data);
@@ -265,43 +271,49 @@ const MotorcyclesMonitoring = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {errorRecords.slice(first, last).map((item) => (
-                    <tr
-                      key={item.id}
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                    >
-                      <td className="w-4 p-4">
-                        <div className="flex items-center">
-                          <input
-                            id={`checkbox-table-search-${item.id}`}
-                            type="checkbox"
-                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                            onChange={(event) =>
-                              handleCheckboxChange(event, item.id)
-                            }
-                          />
-                          <label
-                            htmlFor={`checkbox-table-search-${item.id}`}
-                            className="sr-only"
-                          >
-                            checkbox
-                          </label>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <img src={item.imageLink} alt="platNomor" />
-                      </td>
-                      <th
-                        scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  {errorRecords ? (
+                    errorRecords.slice(first, last).map((item) => (
+                      <tr
+                        key={item.id}
+                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                       >
-                        {item.platNomor}
-                      </th>
-                      <td className="px-6 py-4">{item.wilayah}</td>
-                      <td className="px-6 py-4">{item.kota_provinsi}</td>
-                      <td className="px-6 py-4">{item.waktuMasuk}</td>
+                        <td className="w-4 p-4">
+                          <div className="flex items-center">
+                            <input
+                              id={`checkbox-table-search-${item.id}`}
+                              type="checkbox"
+                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                              onChange={(event) =>
+                                handleCheckboxChange(event, item.id)
+                              }
+                            />
+                            <label
+                              htmlFor={`checkbox-table-search-${item.id}`}
+                              className="sr-only"
+                            >
+                              checkbox
+                            </label>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <img src={item.imageLink} alt="platNomor" />
+                        </td>
+                        <th
+                          scope="row"
+                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                          {item.platNomor}
+                        </th>
+                        <td className="px-6 py-4">{item.wilayah}</td>
+                        <td className="px-6 py-4">{item.kota_provinsi}</td>
+                        <td className="px-6 py-4">{item.waktuMasuk}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="7">Loading</td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>

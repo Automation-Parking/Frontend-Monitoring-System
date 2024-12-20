@@ -20,7 +20,7 @@ const ReportPaper = () => {
     const getAllVisitor = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3000/api/getParkingOut?search=&pageSize=10&page=" +
+          "https://44ca-2404-c0-2420-00-f3bf-19f.ngrok-free.app/api/getParkingOut?search=&pageSize=10&page=" +
             pageNumber
         );
         const result = await response.json();
@@ -68,7 +68,7 @@ const ReportPaper = () => {
                 </div>
                 <div className="p-6 text-xl font-bold">
                   <form
-                    action="http://localhost:3000/api/report"
+                    action="https://44ca-2404-c0-2420-00-f3bf-19f.ngrok-free.app/api/report"
                     method="POST"
                     onSubmit={(e) => {
                       console.log("Form submitted");

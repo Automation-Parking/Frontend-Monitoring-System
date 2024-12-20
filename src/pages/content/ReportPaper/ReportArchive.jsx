@@ -18,7 +18,7 @@ const ReportArchive = () => {
     const getExcel = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3000/api/report?page=" + pageNumber
+          "https://44ca-2404-c0-2420-00-f3bf-19f.ngrok-free.app/api/report?page=" + pageNumber
         );
         const result = await response.json();
         setDataExcel(result); // Menyimpan hasil ke dalam state
