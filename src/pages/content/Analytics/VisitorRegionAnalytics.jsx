@@ -16,7 +16,7 @@ const VisitorRegionAnalytics = () => {
   const [pageNumberRegion, setPageNumberRegion] = useState(1);
   const [pageNumberCity, setPageNumberCity] = useState(1);
   const pageRegion = (conditions) => {
-    if (conditions == "prev" && pageNumberRgion != 1) {
+    if (conditions == "prev" && pageNumberRegion != 1) {
       setPageNumberRegion(pageNumberRegion - 1);
     } else if (conditions == "next") {
       setPageNumberRegion(pageNumberRegion + 1);
@@ -40,17 +40,17 @@ const VisitorRegionAnalytics = () => {
           visitorByCity,
         ] = await Promise.all([
           fetch(
-            "http://localhost:3000/api/getParkingOut?search=&pageSize=5&orderBy=wilayah&page=" +
+            "https://44ca-2404-c0-2420-00-f3bf-19f.ngrok-free.app/api/getParkingOut?search=&pageSize=5&orderBy=wilayah&page=" +
               pageNumberRegion
           ).then((res) => res.json()),
           fetch(
-            "http://localhost:3000/api/getParkingOut?search=&pageSize=5&orderBy=kota_provinsi&page=" +
+            "https://44ca-2404-c0-2420-00-f3bf-19f.ngrok-free.app/api/getParkingOut?search=&pageSize=5&orderBy=kota_provinsi&page=" +
               pageNumberCity
           ).then((res) => res.json()),
-          fetch("http://localhost:3000/api/getParkingByRegion").then((res) =>
+          fetch("https://44ca-2404-c0-2420-00-f3bf-19f.ngrok-free.app/api/getParkingByRegion").then((res) =>
             res.json()
           ),
-          fetch("http://localhost:3000/api/getParkingByCity").then((res) =>
+          fetch("https://44ca-2404-c0-2420-00-f3bf-19f.ngrok-free.app/api/getParkingByCity").then((res) =>
             res.json()
           ),
         ]);
