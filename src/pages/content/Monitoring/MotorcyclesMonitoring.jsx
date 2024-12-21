@@ -52,7 +52,7 @@ const MotorcyclesMonitoring = () => {
   const fetchParkingStatus = async () => {
     try {
       const response = await fetch(
-        "https://efa7-2404-c0-2420-00-f3bf-19f.ngrok-free.app/api/monitoring"
+        "http://localhost:3000/api/monitoring"
       );
       const data = await response.json();
       setTotalIn(data.totalIn);
@@ -64,7 +64,7 @@ const MotorcyclesMonitoring = () => {
   const fetchErrorRecords = async () => {
     try {
       const response = await fetch(
-        "https://efa7-2404-c0-2420-00-f3bf-19f.ngrok-free.app/api/error-records"
+        "http://localhost:3000/api/error-records"
       );
       const data = await response.json();
       setErrorRecords(data.records);
@@ -81,7 +81,7 @@ const MotorcyclesMonitoring = () => {
 
     try {
       const response = await fetch(
-        "https://efa7-2404-c0-2420-00-f3bf-19f.ngrok-free.app/api/manual-input/update",
+        "http://localhost:3000/api/manual-input/update",
         {
           method: "POST",
           headers: {

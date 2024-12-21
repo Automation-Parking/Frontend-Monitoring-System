@@ -13,6 +13,7 @@ const VisitorAnalytics = () => {
   const [GrafikMonth, setGrafikMonth] = useState(null);
   const [GrafikWeek, setGrafikWeek] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
+  const [selectedMonth, setSelectedMonth] = useState(0);
   const page = (conditions) => {
     if (conditions == "prev" && pageNumber != 1) {
       setPageNumber(pageNumber - 1);
@@ -26,13 +27,13 @@ const VisitorAnalytics = () => {
         const [dataAllVisitor, dataAllVisitorMonthly, dataAllVisitorWeekly] =
           await Promise.all([
             fetch(
-              "https://44ca-2404-c0-2420-00-f3bf-19f.ngrok-free.app/api/getParkingOut?search=&pageSize=12&page=" +
+              "http://localhost:3000/api/getParkingOut?search=&pageSize=12&page=" +
                 pageNumber
             ).then((res) => res.json()),
-            fetch("https://44ca-2404-c0-2420-00-f3bf-19f.ngrok-free.app/api/getParkingByMonth").then((res) =>
+            fetch("http://localhost:3000/api/getParkingByMonth").then((res) =>
               res.json()
             ),
-            fetch("https://44ca-2404-c0-2420-00-f3bf-19f.ngrok-free.app/api/getParkingByWeek").then((res) =>
+            fetch("http://localhost:3000/api/getParkingByWeek").then((res) =>
               res.json()
             ),
           ]);
@@ -57,10 +58,14 @@ const VisitorAnalytics = () => {
     "July",
     "August",
     "September",
+    "Oktober",
     "November",
     "December",
   ];
   console.log(dataAllVisitor);
+  const handleSelectChange = (event) => {
+    setSelectedMonth(parseInt(event.target.value));
+  };
   useEffect(() => {
     if (dataAllVisitorMonthly) {
       const dataGrafikMonth = {
@@ -80,13 +85,13 @@ const VisitorAnalytics = () => {
   useEffect(() => {
     if (dataAllVisitorWeekly) {
       const dataGrafikWeek = {
-        labels: dataAllVisitorWeekly.data[7].weeks.map(
+        labels: dataAllVisitorWeekly.data[selectedMonth].weeks.map(
           (item) => `Week ${item.week}`
         ), // Mapping weeks to labels
         datasets: [
           {
             label: "Jumlah Pengunjung",
-            data: dataAllVisitorWeekly.data[7].weeks.map(
+            data: dataAllVisitorWeekly.data[selectedMonth].weeks.map(
               (item) => item.totalVisits
             ),
             borderColor: "rgba(75, 192, 192, 1)",
@@ -96,7 +101,7 @@ const VisitorAnalytics = () => {
       };
       setGrafikWeek(dataGrafikWeek);
     }
-  }, [dataAllVisitorWeekly]);
+  }, [dataAllVisitorWeekly, selectedMonth]);
   console.log(GrafikMonth);
   console.log(GrafikWeek);
   return (
@@ -175,7 +180,11 @@ const VisitorAnalytics = () => {
                           scope="row"
                           className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
-                          <img src={item.imageLink} alt="" />
+                          <img
+                            src={item.imageLink}
+                            alt=""
+                            className="max-h-[50px] overflow-auto"
+                          />
                         </th>
                         <td className="px-6 py-4">{item.platNomor}</td>
                         <td className="px-6 py-4">{item.wilayah}</td>
@@ -227,13 +236,27 @@ const VisitorAnalytics = () => {
         <div className="h-[95%]">
           <Card variant="w-full mb-10 h-1/2">
             <HeadCard>
-              <div className="flex items-center text-center w-full">
-                <img
-                  src={LogoChartBar}
-                  alt="iconCCTV"
-                  className="h-10 w-10 mr-3"
-                />
-                <p className="text-2xl font-bold text-[#ffffff]">weekly</p>
+              <div className="flex items-center justify-between text-center w-full">
+                <div className="flex items-center">
+                  <img
+                    src={LogoChartBar}
+                    alt="iconCCTV"
+                    className="h-10 w-10 mr-3"
+                  />
+                  <p className="text-2xl font-bold text-[#ffffff]">Weekly</p>
+                </div>
+                <select
+                  name="bulan"
+                  id="bulan"
+                  onChange={handleSelectChange}
+                  className="rounded-lg bg-[#ffffff] text-gray-500 font-bold text-lg px-4 py-2 border-2 border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  {bulan.map((item, index) => (
+                    <option key={index} value={index}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
               </div>
             </HeadCard>
             <div className="p-8 h-full">

@@ -61,6 +61,33 @@ const Header = () => {
   const [isModalLogoutOpen, setIsModalLogoutOpen] = useState(false);
   const openModalLogout = () => setIsModalLogoutOpen(true);
   const closeModalLogout = () => setIsModalLogoutOpen(false);
+  const logOut = async () => {
+    try {
+      const username = sessionStorage.getItem("username");
+      if (!username) {
+        console.error("Tidak ada username dalam sesi");
+        return;
+      }
+
+      const response = await fetch("http://localhost:3000/api/users/logOut", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username }),
+      });
+
+      if (response.ok) {
+        console.log("Logout berhasil");
+        sessionStorage.removeItem("username");
+        navigate("/Monitoring/Motorcycle-Monitoring");
+      } else {
+        console.error("Logout gagal:", await response.json());
+      }
+    } catch (error) {
+      console.error("Terjadi kesalahan saat logout:", error);
+    }
+  };
   return (
     <header className="bg-white mb-2">
       <nav
@@ -308,12 +335,13 @@ const Header = () => {
               <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                 Are you sure you want to log out?
               </h3>
-              <Link to='/'
+              <button
                 type="button"
+                onClick={logOut}
                 className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
               >
                 Yes, I'm sure
-              </Link>
+              </button>
               <button
                 type="button"
                 onClick={closeModalLogout}

@@ -40,17 +40,17 @@ const VisitorRegionAnalytics = () => {
           visitorByCity,
         ] = await Promise.all([
           fetch(
-            "https://44ca-2404-c0-2420-00-f3bf-19f.ngrok-free.app/api/getParkingOut?search=&pageSize=5&orderBy=wilayah&page=" +
+            "http://localhost:3000/api/getParkingOut?search=&pageSize=5&orderBy=wilayah&page=" +
               pageNumberRegion
           ).then((res) => res.json()),
           fetch(
-            "https://44ca-2404-c0-2420-00-f3bf-19f.ngrok-free.app/api/getParkingOut?search=&pageSize=5&orderBy=kota_provinsi&page=" +
+            "http://localhost:3000/api/getParkingOut?search=&pageSize=5&orderBy=kota_provinsi&page=" +
               pageNumberCity
           ).then((res) => res.json()),
-          fetch("https://44ca-2404-c0-2420-00-f3bf-19f.ngrok-free.app/api/getParkingByRegion").then((res) =>
+          fetch("http://localhost:3000/api/getParkingByRegion").then((res) =>
             res.json()
           ),
-          fetch("https://44ca-2404-c0-2420-00-f3bf-19f.ngrok-free.app/api/getParkingByCity").then((res) =>
+          fetch("http://localhost:3000/api/getParkingByCity").then((res) =>
             res.json()
           ),
         ]);
@@ -174,7 +174,11 @@ const VisitorRegionAnalytics = () => {
                           </div>
                         </td>
                         <td className="px-6 py-4">
-                          <img src={item.imageLink} alt="" />
+                          <img
+                            src={item.imageLink}
+                            alt=""
+                            className="max-h-[40px] overflow-auto"
+                          />
                         </td>
                         <th
                           scope="row"
@@ -294,7 +298,11 @@ const VisitorRegionAnalytics = () => {
                           </div>
                         </td>
                         <td className="px-6 py-4">
-                          <img src={item.imageLink} alt="" />
+                          <img
+                            src={item.imageLink}
+                            alt=""
+                            className="max-h-[40px] overflow-auto"
+                          />
                         </td>
                         <th
                           scope="row"
@@ -376,11 +384,7 @@ const VisitorRegionAnalytics = () => {
           <Card variant="w-full h-1/2">
             <HeadCard>
               <div className="flex items-center text-center w-full">
-                <img
-                  src={LogoChartBar}
-                  alt="iconCCTV"
-                  className="h-10 w-10 mr-3"
-                />
+                <img src={LogoChartBar} alt="iconCCTV" />
                 <p className="text-2xl font-bold text-[#ffffff]">Region</p>
               </div>
             </HeadCard>
