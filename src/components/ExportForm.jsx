@@ -1,6 +1,6 @@
 // ExportForm.jsx
 import React, { useState } from "react";
-
+import IconExcel from "../assets/image/Logo/excel.png";
 const ExportForm = ({ onSubmit }) => {
   const [fileName, setFileName] = useState("");
   const [date, setDate] = useState("");
@@ -58,7 +58,7 @@ const ExportForm = ({ onSubmit }) => {
           type="submit"
           className="flex gap-2 mt-4 px-3 py-1 bg-gradient-to-t border-0 from-[#029C0F] via-[#01b810] to-[#02cd13] focus:ring-2 focus:ring-[#21ba24] focus:outline-none active:outline-none text-white rounded-md"
         >
-          <img src="/path/to/iconExcel.png" alt="Excel Icon" />
+          <img src={IconExcel} alt="Excel Icon" />
           <h2 className="text-xl font-bold text-white">Export</h2>
         </button>
       </div>
