@@ -67,6 +67,7 @@ const ReportPaper = () => {
 
       if (response.ok) {
         alert("Export request submitted successfully!");
+        navigate("/ReportPaper/Report-Archive");
       } else {
         alert("Failed to export the report.");
       }
