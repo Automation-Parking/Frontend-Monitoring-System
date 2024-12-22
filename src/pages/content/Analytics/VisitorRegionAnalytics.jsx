@@ -138,7 +138,7 @@ const VisitorRegionAnalytics = () => {
           <HeadCard>
             <div className="flex justify-between items-center text-center w-full">
               <p className="text-2xl font-bold text-[#ffffff]">
-                Data by Province/City
+                Data by City/Province
               </p>
               <SearchBar></SearchBar>
             </div>
@@ -170,7 +170,7 @@ const VisitorRegionAnalytics = () => {
                       License Plate
                     </th>
                     <th scope="col" className="px-6 py-3">
-                      kota/provinsi
+                      City/Province
                     </th>
                     <th scope="col" className="px-6 py-3">
                       Entry Time
@@ -294,7 +294,7 @@ const VisitorRegionAnalytics = () => {
                       License Plate
                     </th>
                     <th scope="col" className="px-6 py-3">
-                      Wilayah
+                      Region
                     </th>
                     <th scope="col" className="px-6 py-3">
                       Entry Time
@@ -394,7 +394,7 @@ const VisitorRegionAnalytics = () => {
                   className="h-10 w-10 mr-3"
                 />
                 <p className="text-2xl font-bold text-[#ffffff]">
-                  Province/City
+                  City/Province
                 </p>
               </div>
             </HeadCard>

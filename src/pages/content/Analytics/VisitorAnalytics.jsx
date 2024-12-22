@@ -170,10 +170,10 @@ const VisitorAnalytics = () => {
                       License Plate
                     </th>
                     <th scope="col" className="px-6 py-3">
-                      Wilayah
+                      Region
                     </th>
                     <th scope="col" className="px-6 py-3">
-                      kota/provinsi
+                      city/province
                     </th>
                     <th scope="col" className="px-6 py-3">
                       Entry Time
