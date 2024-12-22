@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "../../../components/Card";
 import HeadCard from "../../../components/HeadCard";
 import SearchBar from "../../../components/SearchBar";
@@ -8,7 +9,9 @@ import IconMotorcycle from "../../../assets/image/Logo/fontisto_motorcycle.png";
 import IconParking from "../../../assets/image/Logo/parking.png";
 import IconGate from "../../../assets/image/Logo/gate.png";
 import InputField from "../../../components/InputField";
+
 const MotorcyclesMonitoring = () => {
+  const navigate = useNavigate();
   let space = 100;
 
   const [streamSrc, setStreamSrc] = useState(""); // State untuk stream
@@ -21,6 +24,14 @@ const MotorcyclesMonitoring = () => {
   const [first, setFirst] = useState(0);
   const [last, setLast] = useState(6);
   const [pageNumber, setPageNumber] = useState(1);
+
+  const token = sessionStorage.getItem("token");
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      navigate("/"); // Redirect to login if no token
+    }
+  }, [navigate]);
 
   const handleInputChange = (e) => {
     setManualPlate(e.target.value);
@@ -49,11 +60,15 @@ const MotorcyclesMonitoring = () => {
     setupWebSocket();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNumber]);
+
   const fetchParkingStatus = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/monitoring"
-      );
+      const response = await fetch("http://localhost:3000/api/monitoring", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      });
       const data = await response.json();
       setTotalIn(data.totalIn);
     } catch (error) {
@@ -63,9 +78,12 @@ const MotorcyclesMonitoring = () => {
 
   const fetchErrorRecords = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/error-records"
-      );
+      const response = await fetch("http://localhost:3000/api/error-records", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      });
       const data = await response.json();
       setErrorRecords(data.records);
     } catch (error) {
@@ -86,6 +104,7 @@ const MotorcyclesMonitoring = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: token,
           },
           body: JSON.stringify({
             recordId: selectedRecordId,

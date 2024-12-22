@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import IconBraincore from "../assets/image/Logo/bclogo.jpeg";
 import { FaSquareParking } from "react-icons/fa6";
 import { RxCross1 } from "react-icons/rx";
-
 import { useNavigate } from "react-router-dom";
+
 const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -32,11 +32,12 @@ const Login = () => {
           }),
         });
         if (login.ok) {
+          const responseData = await login.json(); // Assuming token is returned
+          sessionStorage.setItem("token", responseData.data.token);
           setError("");
           navigate("/Monitoring/Motorcycle-Monitoring");
         } else {
           const responseData = await login.json();
-          
           setError(responseData.message || "Login gagal. Coba lagi.");
         }
       } catch (err) {

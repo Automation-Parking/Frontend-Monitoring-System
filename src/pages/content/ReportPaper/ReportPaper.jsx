@@ -1,14 +1,25 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "../../../components/Card";
 import HeadCard from "../../../components/HeadCard";
 import SearchBar from "../../../components/SearchBar";
 import IconExcel from "../../../assets/image/Logo/excel.png";
 import Button from "../../../components/Button";
 import Modal from "../../../components/Modal";
+import ExportForm from "../../../components/ExportForm";
 
 const ReportPaper = () => {
+  const navigate = useNavigate();
   const [dataAllVisitor, setDataAllVisitor] = useState(null); // Menyimpan data dari API
   const [pageNumber, setPageNumber] = useState(1);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      navigate("/"); // Redirect to login if no token
+    }
+  }, [navigate]);
+
   const page = (conditions) => {
     if (conditions == "prev" && pageNumber != 1) {
       setPageNumber(pageNumber - 1);
@@ -16,12 +27,20 @@ const ReportPaper = () => {
       setPageNumber(pageNumber + 1);
     }
   };
+
   useEffect(() => {
+    const token = sessionStorage.getItem("token");
     const getAllVisitor = async () => {
       try {
         const response = await fetch(
           "http://localhost:3000/api/getParkingOut?search=&pageSize=10&page=" +
-            pageNumber
+            pageNumber,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: token,
+            },
+          }
         );
         const result = await response.json();
         setDataAllVisitor(result); // Menyimpan hasil ke dalam state
@@ -33,6 +52,28 @@ const ReportPaper = () => {
     getAllVisitor();
   }, [pageNumber]);
   console.log(dataAllVisitor);
+
+  const handleFormSubmit = async ({ fileName, date, token }) => {
+    try {
+      const token = sessionStorage.getItem("token");
+      const response = await fetch("http://localhost:3000/api/report", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+        body: JSON.stringify({ fileName, date }),
+      });
+
+      if (response.ok) {
+        alert("Export request submitted successfully!");
+      } else {
+        alert("Failed to export the report.");
+      }
+    } catch (error) {
+      console.error("Error submitting export request:", error);
+    }
+  };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -67,53 +108,7 @@ const ReportPaper = () => {
                   </h2>
                 </div>
                 <div className="p-6 text-xl font-bold">
-                  <form
-                    action="http://localhost:3000/api/report"
-                    method="POST"
-                    onSubmit={(e) => {
-                      console.log("Form submitted");
-                    }}
-                  >
-                    <table cellPadding="5">
-                      <tbody>
-                        <tr>
-                          <td>
-                            <label htmlFor="">filename</label>
-                          </td>
-                          <td>:</td>
-                          <td>
-                            <input
-                              type="text"
-                              name="fileName"
-                              className="rounded-md ml-3 w-full"
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <label htmlFor="">Bulan/Tahun</label>
-                          </td>
-                          <td>:</td>
-                          <td>
-                            <input
-                              type="month"
-                              name="date"
-                              className="rounded-md ml-3 w-full"
-                            />
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <div className="flex justify-end">
-                      <button
-                        type="submit"
-                        className="flex gap-2 mt-4 px-3 py-1 bg-gradient-to-t border-0 from-[#029C0F] via-[#01b810] to-[#02cd13] focus:ring-2 focus:ring-[#21ba24] focus:outline-none active:outline-none text-white rounded-md"
-                      >
-                        <img src={IconExcel} alt="" />
-                        <h2 className="text-xl font-bold text-white">Export</h2>
-                      </button>
-                    </div>
-                  </form>
+                  <ExportForm onSubmit={handleFormSubmit} />
                 </div>
               </Modal>
               <form action="">

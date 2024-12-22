@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "../../../components/Card";
 import HeadCard from "../../../components/HeadCard";
 import SearchBar from "../../../components/SearchBar";
@@ -7,6 +8,7 @@ import { Bar, Line } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
 
 const VisitorRegionAnalytics = () => {
+  const navigate = useNavigate();
   const [dataVisitorByRegion, setDataVisitorByRegion] = useState(null);
   const [dataVisitorByCity, setDataVisitorByCity] = useState(null);
   const [GrafikRegion, setGrafikRegion] = useState(null);
@@ -15,6 +17,14 @@ const VisitorRegionAnalytics = () => {
   const [dataAllVisitorCity, setDataAllVisitorCity] = useState(null);
   const [pageNumberRegion, setPageNumberRegion] = useState(1);
   const [pageNumberCity, setPageNumberCity] = useState(1);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      navigate("/"); // Redirect to login if no token
+    }
+  }, [navigate]);
+
   const pageRegion = (conditions) => {
     if (conditions == "prev" && pageNumberRegion != 1) {
       setPageNumberRegion(pageNumberRegion - 1);
@@ -31,6 +41,7 @@ const VisitorRegionAnalytics = () => {
   };
 
   useEffect(() => {
+    const token = sessionStorage.getItem("token");
     const fetchData = async () => {
       try {
         const [
@@ -41,18 +52,36 @@ const VisitorRegionAnalytics = () => {
         ] = await Promise.all([
           fetch(
             "http://localhost:3000/api/getParkingOut?search=&pageSize=5&orderBy=wilayah&page=" +
-              pageNumberRegion
+              pageNumberRegion,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: token,
+              },
+            }
           ).then((res) => res.json()),
           fetch(
             "http://localhost:3000/api/getParkingOut?search=&pageSize=5&orderBy=kota_provinsi&page=" +
-              pageNumberCity
+              pageNumberCity,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: token,
+              },
+            }
           ).then((res) => res.json()),
-          fetch("http://localhost:3000/api/getParkingByRegion").then((res) =>
-            res.json()
-          ),
-          fetch("http://localhost:3000/api/getParkingByCity").then((res) =>
-            res.json()
-          ),
+          fetch("http://localhost:3000/api/getParkingByRegion", {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: token,
+            },
+          }).then((res) => res.json()),
+          fetch("http://localhost:3000/api/getParkingByCity", {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: token,
+            },
+          }).then((res) => res.json()),
         ]);
 
         setDataAllVisitorRegion(allVisitorRegion);

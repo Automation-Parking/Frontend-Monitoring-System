@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "../../../components/Card";
 import HeadCard from "../../../components/HeadCard";
 import SearchBar from "../../../components/SearchBar";
@@ -7,6 +8,7 @@ import { Bar, Line } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
 
 const VisitorAnalytics = () => {
+  const navigate = useNavigate();
   const [dataAllVisitor, setDataAllVisitor] = useState(null); // Menyimpan data dari API
   const [dataAllVisitorMonthly, setDataAllVisitorMonthly] = useState(null); // Menyimpan data dari API
   const [dataAllVisitorWeekly, setDataAllVisitorWeekly] = useState(null); // Menyimpan data dari API
@@ -14,6 +16,14 @@ const VisitorAnalytics = () => {
   const [GrafikWeek, setGrafikWeek] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedMonth, setSelectedMonth] = useState(0);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      navigate("/"); // Redirect to login if no token
+    }
+  }, [navigate]);
+
   const page = (conditions) => {
     if (conditions == "prev" && pageNumber != 1) {
       setPageNumber(pageNumber - 1);
@@ -21,21 +31,35 @@ const VisitorAnalytics = () => {
       setPageNumber(pageNumber + 1);
     }
   };
+
   useEffect(() => {
+    const token = sessionStorage.getItem("token");
     const fetchData = async () => {
       try {
         const [dataAllVisitor, dataAllVisitorMonthly, dataAllVisitorWeekly] =
           await Promise.all([
             fetch(
               "http://localhost:3000/api/getParkingOut?search=&pageSize=12&page=" +
-                pageNumber
+                pageNumber,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: token,
+                },
+              }
             ).then((res) => res.json()),
-            fetch("http://localhost:3000/api/getParkingByMonth").then((res) =>
-              res.json()
-            ),
-            fetch("http://localhost:3000/api/getParkingByWeek").then((res) =>
-              res.json()
-            ),
+            fetch("http://localhost:3000/api/getParkingByMonth", {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: token,
+              },
+            }).then((res) => res.json()),
+            fetch("http://localhost:3000/api/getParkingByWeek", {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: token,
+              },
+            }).then((res) => res.json()),
           ]);
 
         setDataAllVisitor(dataAllVisitor);
@@ -48,6 +72,7 @@ const VisitorAnalytics = () => {
 
     fetchData();
   }, [pageNumber]);
+
   const bulan = [
     "January",
     "February",
@@ -62,10 +87,12 @@ const VisitorAnalytics = () => {
     "November",
     "December",
   ];
+
   console.log(dataAllVisitor);
   const handleSelectChange = (event) => {
     setSelectedMonth(parseInt(event.target.value));
   };
+
   useEffect(() => {
     if (dataAllVisitorMonthly) {
       const dataGrafikMonth = {
@@ -82,6 +109,7 @@ const VisitorAnalytics = () => {
       setGrafikMonth(dataGrafikMonth);
     }
   }, [dataAllVisitorMonthly]);
+
   useEffect(() => {
     if (dataAllVisitorWeekly) {
       const dataGrafikWeek = {
@@ -104,6 +132,7 @@ const VisitorAnalytics = () => {
   }, [dataAllVisitorWeekly, selectedMonth]);
   console.log(GrafikMonth);
   console.log(GrafikWeek);
+
   return (
     <div className="flex">
       <div className="w-3/5 ml-10 mt-10 mr-5 mb-5">

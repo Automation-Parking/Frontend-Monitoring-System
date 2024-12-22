@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Dropdown from "./Dropdown";
 import SubDropdown from "./SubDropdown";
 import LogoMotor from "../assets/image/Logo/fontisto_motorcycle.png";
@@ -16,6 +17,7 @@ import HiddenMenu from "./HiddenMenu";
 import SubHiddenMenu from "./SubHiddenMenu";
 import HeadHiddenMenu from "./HeadHiddenMenu";
 import Modal from "./Modal";
+
 const Header = () => {
   const [isMonitoringDropdownOpen, setMonitoringDropdownOpen] = useState(false);
   const [isAnalyticDropdownOpen, setAnalyticDropdownOpen] = useState(false);
@@ -26,6 +28,7 @@ const Header = () => {
   const [isAnalyticSubMenuOpen, setAnalyticSubMenuOpen] = useState(true);
   const [isReportPaperSubMenuOpen, setReportPaperSubMenuOpen] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -63,26 +66,28 @@ const Header = () => {
   const closeModalLogout = () => setIsModalLogoutOpen(false);
   const logOut = async () => {
     try {
-      const username = sessionStorage.getItem("username");
-      if (!username) {
-        console.error("Tidak ada username dalam sesi");
+      const token = sessionStorage.getItem("token");
+      if (!token) {
+        console.error("Tidak ada token dalam sesi");
         return;
       }
 
-      const response = await fetch("http://localhost:3000/api/users/logOut", {
-        method: "POST",
+      const response = await fetch("http://localhost:3000/api/users/logout", {
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
+          Authorization: token,
         },
-        body: JSON.stringify({ username }),
       });
 
       if (response.ok) {
+        console.log(`token: ${token}`);
         console.log("Logout berhasil");
-        sessionStorage.removeItem("username");
-        navigate("/Monitoring/Motorcycle-Monitoring");
+        sessionStorage.removeItem("token");
+        navigate("/");
       } else {
         console.error("Logout gagal:", await response.json());
+        console.log(token);
       }
     } catch (error) {
       console.error("Terjadi kesalahan saat logout:", error);

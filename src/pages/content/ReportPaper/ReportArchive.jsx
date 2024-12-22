@@ -1,12 +1,23 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "../../../components/Card";
 import HeadCard from "../../../components/HeadCard";
 import SearchBar from "../../../components/SearchBar";
 import logoExcel from "../../../assets/image/Logo/excelPaper.png";
 import { Link } from "react-router-dom";
+
 const ReportArchive = () => {
+  const navigate = useNavigate();
   const [dataExcel, setDataExcel] = useState(null); // Menyimpan data dari API
   const [pageNumber, setPageNumber] = useState(1);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      navigate("/"); // Redirect to login if no token
+    }
+  }, [navigate]);
+
   const page = (conditions) => {
     if (conditions == "prev" && pageNumber != 1) {
       setPageNumber(pageNumber - 1);
@@ -15,10 +26,17 @@ const ReportArchive = () => {
     }
   };
   useEffect(() => {
+    const token = sessionStorage.getItem("token");
     const getExcel = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3000/api/report?page=" + pageNumber
+          "http://localhost:3000/api/report?page=" + pageNumber,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: token,
+            },
+          }
         );
         const result = await response.json();
         setDataExcel(result); // Menyimpan hasil ke dalam state
@@ -62,7 +80,6 @@ const ReportArchive = () => {
             ) : (
               <div>Loading</div>
             )}
-            ;
           </div>
           <nav className="flex justify-start pt-4">
             <ul className="lg:flex lg:flex-1 lg:justify-end">

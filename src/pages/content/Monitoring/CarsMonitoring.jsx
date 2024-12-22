@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "../../../components/Card";
 import HeadCard from "../../../components/HeadCard";
 import SearchBar from "../../../components/SearchBar";
@@ -9,7 +10,17 @@ import IconCar from "../../../assets/image/Logo/mdi_car.png";
 import IconParking from "../../../assets/image/Logo/parking.png";
 import IconGate from "../../../assets/image/Logo/gate.png";
 import InputField from "../../../components/InputField";
+
 const CarsMonitoring = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      navigate("/"); // Redirect to login if no token
+    }
+  }, [navigate]);
+
   const data = [];
   let i = 1;
 
@@ -52,9 +63,7 @@ const CarsMonitoring = () => {
           <Card variant="w-1/2 ml-10">
             <HeadCard>
               <div className="flex justify-center items-center text-center w-full">
-                <p className="text-2xl font-bold text-[#ffffff]">
-                  Empty Space
-                </p>
+                <p className="text-2xl font-bold text-[#ffffff]">Empty Space</p>
               </div>
             </HeadCard>
             <div className="p-10 flex justify-center items-center text-center w-full">
